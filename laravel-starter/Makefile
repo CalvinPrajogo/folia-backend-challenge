@@ -16,3 +16,6 @@ down:
 
 migrate-fresh:
 	docker compose exec -it app php artisan migrate:fresh --seed
+
+tinker:
+	docker compose exec -it app php artisan tinker
