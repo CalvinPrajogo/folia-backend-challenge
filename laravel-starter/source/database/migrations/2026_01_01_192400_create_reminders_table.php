@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
+            $table->string("title");
+            $table->text("description")->nullable();
+            $table->string("recurrence_type")->default("none");
+            $table->integer("recurrence_interval")->nullable();
+            $table->json("recurrence_days")->nullable();
+            $table->time("reminder_time")->nullable();
+            $table->dateTime("start_date");
+            $table->dateTime("end_date")->nullable();
             $table->timestamps();
         });
     }
