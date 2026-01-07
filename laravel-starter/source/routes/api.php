@@ -17,6 +17,7 @@ Route::post('/users', [UserController::class, 'create']);
 
 Route::get("/reminders", [ReminderController::class, 'index']);
 Route::get("/reminders/search", [ReminderController::class, 'search']);
+Route::get("/reminders/occurrences", [ReminderController::class, 'occurrences']);
 Route::get("/reminders/{id}", [ReminderController::class, 'show']);
 Route::post("/reminders", [ReminderController::class, 'store']);
 Route::put("/reminders/{id}", [ReminderController::class, 'update']);
