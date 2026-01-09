@@ -86,8 +86,14 @@ class ReminderController extends Controller
 
     // Get occurrences of reminders in a date range
     public function occurrences(Request $request) {
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        // Validate input
+        $validated = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+        
+        $startDate = $validated['start_date'];
+        $endDate = $validated['end_date'];
         
         $allOccurrences = [];
         
