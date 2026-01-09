@@ -6,6 +6,7 @@ namespace App\Controllers\API;
 use App\Controllers\Controller;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ReminderController extends Controller
 {
@@ -99,8 +100,8 @@ class ReminderController extends Controller
         
         foreach (Reminder::all() as $reminder) {
             $occurrences = $reminder->getOccurrences(
-                new \DateTime($startDate),
-                new \DateTime($endDate)
+                Carbon::parse($startDate),
+                Carbon::parse($endDate)
             );
             $allOccurrences = array_merge($allOccurrences, $occurrences);
         }
