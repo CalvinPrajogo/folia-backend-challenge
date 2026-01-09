@@ -24,16 +24,20 @@ class ReminderController extends Controller
     // Create a reminder
     public function store(Request $request)
     {
-        $reminder = Reminder::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'recurrence_type' => $request->input('recurrence_type'),
-            'recurrence_interval' => $request->input('recurrence_interval'),
-            'recurrence_days' => $request->input('recurrence_days'),
-            'reminder_time' => $request->input('reminder_time'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
+        // Validate input
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'recurrence_type' => 'required|in:none,daily,interval,weekly',
+            'recurrence_interval' => 'nullable|integer|min:1',
+            'recurrence_days' => 'nullable|array',
+            'recurrence_days.*' => 'string|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            'reminder_time' => 'nullable|date_format:H:i:s',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
+
+        $reminder = Reminder::create($validated);
 
         return $reminder;
     }
@@ -43,16 +47,20 @@ class ReminderController extends Controller
     {
         $reminder = Reminder::findOrFail($id);
         
-        $reminder->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'recurrence_type' => $request->input('recurrence_type'),
-            'recurrence_interval' => $request->input('recurrence_interval'),
-            'recurrence_days' => $request->input('recurrence_days'),
-            'reminder_time' => $request->input('reminder_time'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
+        // Validate input
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'recurrence_type' => 'required|in:none,daily,interval,weekly',
+            'recurrence_interval' => 'nullable|integer|min:1',
+            'recurrence_days' => 'nullable|array',
+            'recurrence_days.*' => 'string|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            'reminder_time' => 'nullable|date_format:H:i:s',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
+        
+        $reminder->update($validated);
 
         return $reminder;
     }
